@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rfpDetails.models import RFP
 from vendor.models import Vendor
 from rfp.utils import send_simple_message
-
+from users.models import User
 
 class ApplyRFPView (APIView):
     
@@ -55,13 +55,24 @@ class ApplyRFPView (APIView):
             if serializer.is_valid():
                 Quotes.objects.create(rfp=rfp, vendor=vendor, **serializer.validated_data)
 
-                #Send email to the vendor 
+                #Send email to all admins
+                admins = User.objects.filter(user_type='admin')
                 
-                if vendor.approval == 'approved':
-                    to_email = user.email
-                    to_name = f"{user.first_name} {user.last_name}"
-                    subject = f"Your Bid have been submitted for RFP ID: f{rfp_id}, Title: {rfp.title}"
-                    message = f"Hello {to_name},\n\nYou have been invited to submit a quote for a new RFP: '{rfp.title}'.\n\nPlease log in to view details and submit your bid {rfp.last_date}.\n\nThank you."
+                for admin in admins:
+                    to_email = admin.email
+                    to_name = f"{admin.first_name} {admin.last_name}"
+                    subject = f"A Bid have been submitted for {rfp.title}"
+                    message = f"""Hi Admin {to_name},
+
+Vendor "{user.first_name} {user.last_name}" has submitted a quote for the RFP titled "{rfp.title}".
+
+Details of the submitted quote:
+- Quote Price: Rs. {serializer.validated_data['total_cost']}
+- Quantity: {serializer.validated_data['quantity']}
+
+Thanks,  
+Velocity RFP System"""
+                    
                     send_simple_message(to_email, to_name, subject, message)
 
 
