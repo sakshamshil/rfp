@@ -10,4 +10,4 @@ class Quotes (models.Model):
     quantity = models.IntegerField()
     item_description = models.TextField()
     total_cost = models.TextField()
-
+    

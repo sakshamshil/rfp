@@ -62,7 +62,8 @@ class ApplyRFPView (APIView):
                     to_email = admin.email
                     to_name = f"{admin.first_name} {admin.last_name}"
                     subject = f"A Bid have been submitted for {rfp.title}"
-                    message = f"""Hi Admin {to_name},
+                    message = f"""
+Hi Admin {to_name},
 
 Vendor "{user.first_name} {user.last_name}" has submitted a quote for the RFP titled "{rfp.title}".
 
