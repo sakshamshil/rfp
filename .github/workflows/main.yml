@@ -10,4 +10,7 @@ jobs:
           clean: false
 
       - name: Copy All Files
-        run: rsync -rlpgoDvc --itemize-changes --no-owner . /mnt/Python/RFP_Management/rfp
+        run: rsync -rlpgoDvc --itemize-changes --no-owner . /mnt/Python/RFP_Management/
+
+      - name: Restart Apache
+        run: service apache2 restart
