@@ -1,3 +1,4 @@
+
 name: action-runner
 on: [workflow_dispatch]
 jobs:
@@ -13,4 +14,4 @@ jobs:
         run: rsync -rlpgoDvc --itemize-changes --no-owner . /mnt/Python/RFP_Management/rfp
 
       - name: Restart Apache
-        run: service apache2 restart
+        run: echo "velocity" | sudo -S service apache2 restart
