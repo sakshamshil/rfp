@@ -10,4 +10,4 @@ jobs:
           clean: false
 
       - name: Copy All Files
-        run: rsync -rlpgoDvc --itemize-changes --no-owner . /mnt/Python/RFP_Management/
+        run: rsync -rlpgoDvc --itemize-changes --no-owner . /mnt/Python/RFP_Management/rfp
