@@ -15,7 +15,7 @@ class LoginSerializer(serializers.Serializer):
 class UserSignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['email', 'password', 'first_name', 'last_name']  # Don't include 'user_type'
+        fields = ['email', 'password', 'first_name', 'last_name']
 
     def create(self, validated_data):
         password = validated_data['password']
