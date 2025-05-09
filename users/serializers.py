@@ -12,20 +12,20 @@ class LoginSerializer(serializers.Serializer):
 
 
 
-class UserSignupSerializer (serializers.ModelSerializer):
-    user_type = serializers.CharField(read_only=True)
+class UserSignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['email', 'password', 'first_name', 'last_name']
+        fields = ['email', 'password', 'first_name', 'last_name']  # Don't include 'user_type'
 
     def create(self, validated_data):
-        validated_data['user_type'] = 'admin'
         password = validated_data['password']
         user = User(**validated_data)
         user.set_password(password)
         user.save()
         return user
+
     
+
 class VendorSignupSerialiser (serializers.ModelSerializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
