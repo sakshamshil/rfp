@@ -1,0 +1,13 @@
+name: action-runner
+on: [workflow_dispatch]
+jobs:
+  main_deployment:
+    runs-on: backend
+    if: github.ref == 'refs/heads/backend'
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          clean: false
+
+      - name: Copy All Files
+        run: rsync -rlpgoDvc --itemize-changes --no-owner . /mnt/Python/RFP_Management/
