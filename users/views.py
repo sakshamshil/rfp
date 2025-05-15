@@ -38,10 +38,15 @@ class LoginView(APIView):
             if user.user_type == 'vendor':
                 try:
                     vendor = Vendor.objects.get(user=user)
-                    if not vendor.approval:
+                    if vendor.approval == 'pending':
                         return Response({
                             "response": "error",
-                            "error": ["Account status Pending"]
+                            "error": "Account status Pending"
+                        }, status=status.HTTP_200_OK)
+                    elif vendor.approval == 'rejected':
+                        return Response({
+                            "response": "error",
+                            "error": "Account Rejected"
                         }, status=status.HTTP_200_OK)
                 except Vendor.DoesNotExist:
                     return Response({
