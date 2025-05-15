@@ -50,6 +50,7 @@ class VendorSignupSerialiser (serializers.ModelSerializer):
             password = validated_data.pop('password')
             first_name = validated_data.pop('first_name')
             last_name = validated_data.pop('last_name')
+            categories_data = validated_data.pop('categories')
 
             user = User(
                 email=email,
@@ -61,11 +62,10 @@ class VendorSignupSerialiser (serializers.ModelSerializer):
             user.set_password(password)
             user.save()
 
-            categories_data = validated_data.pop('categories')
             vendor = Vendor.objects.create(user=user, **validated_data)
             vendor.categories.set(categories_data)
 
-        return vendor
+            return vendor
     
 
 
