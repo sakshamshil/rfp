@@ -10,9 +10,6 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 
 class CategoryView (APIView):
 
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAdmin]
-
     def get(self, request):
         """
         Return a list of all categories.
