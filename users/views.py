@@ -51,7 +51,7 @@ class LoginView(APIView):
                 except Vendor.DoesNotExist:
                     return Response({
                         "response": "error",
-                        "error": ["Vendor profile not found"]
+                        "error": "Vendor profile not found"
                     }, status=status.HTTP_404_NOT_FOUND)
 
             refresh = RefreshToken.for_user(user)
