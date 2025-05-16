@@ -76,10 +76,17 @@ class RFPCreateView(APIView):
 
 
 
-class RFPDetailsView (APIView):
+class RFPDetailsView(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsVendor]
-    
+
+    def get_permissions(self):
+        if self.request.method == 'PUT':
+            permission_classes = [IsAdmin]
+        elif self.request.method == 'GET':
+            permission_classes = [IsVendor]
+        else:
+            permission_classes = []  
+        return [permission() for permission in permission_classes]
 
     def put(self, request, id):
         """
@@ -89,44 +96,64 @@ class RFPDetailsView (APIView):
         try:
             rfp = RFP.objects.get(id=rfp_id)
             serializer = RFPListSerializer(instance=rfp)
-            return Response({
-                "message" : "success",
-                "rfp" : serializer.data
-            }, status=status.HTTP_200_OK)
+            return Response(
+                {
+                    "message": "success",
+                    "rfp": serializer.data,
+                },
+                status=status.HTTP_200_OK,
+            )
         except RFP.DoesNotExist:
-            return Response({
-                "message": "error",
-                "error": "RFP ID does not exist"
-            }, status=status.HTTP_404_NOT_FOUND)
-        
+            return Response(
+                {
+                    "message": "error",
+                    "error": "RFP ID does not exist",
+                },
+                status=status.HTTP_404_NOT_FOUND,
+            )
 
     def get(self, request, id):
+        """
+        To get the RFP details by user_id
+        """
         user_id = id
         try:
-            user = User.objects.get(id = user_id)
+            user = User.objects.get(id=user_id)
             vendor = Vendor.objects.get(user=user)
         except User.DoesNotExist:
-            return Response({
-                "response": "error",
-                "error": "User does not exist"
-                }, status=status.HTTP_200_OK)
+            return Response(
+                {
+                    "response": "error",
+                    "error": "User does not exist",
+                },
+                status=status.HTTP_200_OK,
+            )
         except Vendor.DoesNotExist:
-            return Response({
-                "response": "error",
-                "error": "User is not a vendor"
-                }, status=status.HTTP_200_OK)
+            return Response(
+                {
+                    "response": "error",
+                    "error": "User is not a vendor",
+                },
+                status=status.HTTP_200_OK,
+            )
         try:
-            rfp = RFP.objects.filter(vendors = vendor)
-            serializer = RFPListSerializer(instance=rfp, many = True)
-            return Response({
-                "message" : "success",
-                "rfp" : serializer.data
-            }, status=status.HTTP_200_OK)
+            rfp = RFP.objects.filter(vendors=vendor)
+            serializer = RFPListSerializer(instance=rfp, many=True)
+            return Response(
+                {
+                    "message": "success",
+                    "rfp": serializer.data,
+                },
+                status=status.HTTP_200_OK,
+            )
         except RFP.DoesNotExist:
-            return Response({
-                "message": "error",
-                "error": "RFP ID does not exist"
-            }, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {
+                    "message": "error",
+                    "error": "RFP ID does not exist",
+                },
+                status=status.HTTP_404_NOT_FOUND,
+            )
 
 
 class CloseRFPView (APIView):
