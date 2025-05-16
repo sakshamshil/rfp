@@ -76,21 +76,13 @@ class RFPCreateView(APIView):
 
 
 
-class RFPDetailsView(APIView):
+class RFPDetailsByRFP(APIView):
     authentication_classes = [JWTAuthentication]
-
-    def get_permissions(self):
-        if self.request.method == 'PUT':
-            permission_classes = [IsAdmin]
-        elif self.request.method == 'GET':
-            permission_classes = [IsVendor]
-        else:
-            permission_classes = []  
-        return [permission() for permission in permission_classes]
+    permission_classes = [IsAdmin]
 
     def put(self, request, id):
         """
-        To get the RFP details by rfp_id
+        To get the RFP details by rfp_id (admin only)
         """
         rfp_id = id
         try:
@@ -112,9 +104,14 @@ class RFPDetailsView(APIView):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
+
+class RFPDetailsByUser(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsVendor]
+
     def get(self, request, id):
         """
-        To get the RFP details by user_id
+        To get the RFP details by user_id (vendor only)
         """
         user_id = id
         try:
@@ -154,7 +151,6 @@ class RFPDetailsView(APIView):
                 },
                 status=status.HTTP_404_NOT_FOUND,
             )
-
 
 class CloseRFPView (APIView):
     authentication_classes = [JWTAuthentication]
