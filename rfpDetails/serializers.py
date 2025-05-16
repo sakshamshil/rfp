@@ -13,20 +13,36 @@ class RFPCreateSerializer(serializers.ModelSerializer):
                   'minimum_price', 'maximum_price', 'categories',
                   'vendors', 'item_description']
 
+    # def validate(self, data):
+    #     """
+    #     This validate functions validate that the given vendors only belong to the given category
+    #     """
+    #     categories = data.get('categories')
+    #     vendors = data.get('vendors')
+
+    #     rfp_categories = set(categories)
+
+    #     for vendor in vendors:
+    #         vendor_categories = set(vendor.categories.all())
+
+    #         #Intersection of both sets
+    #         if not vendor_categories & rfp_categories:
+    #             raise serializers.ValidationError(
+    #                 f"Vendor ID:{vendor.id} does not belong to any of the RFP's categories."
+    #             )
+
+    #     return data
+    
     def validate(self, data):
-        """
-        This validate functions validate that the given vendors only belong to the given category
-        """
         categories = data.get('categories')
         vendors = data.get('vendors')
 
-        rfp_categories = set(categories)
+        rfp_category_ids = set(cat.id for cat in categories)
 
         for vendor in vendors:
-            vendor_categories = set(vendor.categories.all())
+            vendor_category_ids = set(cat.id for cat in vendor.categories.all())
 
-            #Intersection of both sets
-            if not vendor_categories & rfp_categories:
+            if not vendor_category_ids & rfp_category_ids:
                 raise serializers.ValidationError(
                     f"Vendor ID:{vendor.id} does not belong to any of the RFP's categories."
                 )
