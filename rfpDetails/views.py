@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from .serializers import *
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rfp.permissions import IsAdmin
+from rfp.permissions import IsAdmin, IsVendor
 from rest_framework.response import Response
 from rest_framework import status
 from .models import RFP
@@ -78,7 +78,7 @@ class RFPCreateView(APIView):
 
 class RFPDetailsView (APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAdmin]
+    permission_classes = [IsVendor]
     
 
     def put(self, request, id):
