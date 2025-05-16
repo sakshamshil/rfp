@@ -28,6 +28,7 @@ class QuoteListSerializer(serializers.ModelSerializer):
             'vendor_id',
             'name',
             'item_price',
+            'quantity',
             'total_cost',
             'email',
             'mobile'
