@@ -9,7 +9,7 @@ class RFPCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RFP
-        fields = ['id', 'title', 'rfp_no', 'quantity', 'last_date',
+        fields = ['title', 'rfp_no', 'quantity', 'last_date',
                   'minimum_price', 'maximum_price', 'categories',
                   'vendors', 'item_description']
 
@@ -49,7 +49,7 @@ class RFPListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RFP
-        fields = ['title', 'rfp_no', 'quantity', 'last_date',
+        fields = ['id', 'title', 'rfp_no', 'quantity', 'last_date',
                   'minimum_price', 'maximum_price', 'categories',
                   'vendors', 'item_description', 'status']
         
