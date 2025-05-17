@@ -58,23 +58,23 @@ class ApplyRFPView (APIView):
                 #Send email to all admins
                 admins = User.objects.filter(user_type='admin')
                 
-                for admin in admins:
-                    to_email = admin.email
-                    to_name = f"{admin.first_name} {admin.last_name}"
-                    subject = f"A Bid have been submitted for {rfp.title}"
-                    message = f"""
-Hi Admin {to_name},
+#                 for admin in admins:
+#                     to_email = admin.email
+#                     to_name = f"{admin.first_name} {admin.last_name}"
+#                     subject = f"A Bid have been submitted for {rfp.title}"
+#                     message = f"""
+# Hi Admin {to_name},
 
-Vendor "{user.first_name} {user.last_name}" has submitted a quote for the RFP titled "{rfp.title}".
+# Vendor "{user.first_name} {user.last_name}" has submitted a quote for the RFP titled "{rfp.title}".
 
-Details of the submitted quote:
-- Quote Price: Rs. {serializer.validated_data['total_cost']}
-- Quantity: {serializer.validated_data['quantity']}
+# Details of the submitted quote:
+# - Quote Price: Rs. {serializer.validated_data['total_cost']}
+# - Quantity: {serializer.validated_data['quantity']}
 
-Thanks,  
-Velocity RFP System"""
+# Thanks,  
+# Velocity RFP System"""
                     
-                    send_simple_message(to_email, to_name, subject, message)
+#                     send_simple_message(to_email, to_name, subject, message)
 
 
                 return Response({
