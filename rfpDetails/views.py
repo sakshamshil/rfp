@@ -57,7 +57,7 @@ class RFPCreateView(APIView):
                         to_email = vendor.user.email
                         to_name = f"{vendor.user.first_name} {vendor.user.last_name}"
                         subject = f"New RFP Opportunity: {rfp.title}"
-                        message = f"Hello {to_name},\n\nYou have been invited to submit a quote for a new RFP: '{rfp.title}'.\n\nPlease log in to view details and submit your bid {rfp.last_date}.\n\nThank you."
+                        message = f"Hello {to_name},\n\nYou have been invited to submit a quote for a new RFP: '{rfp.title}'.\n\nPlease log in to view details and submit your bid by {rfp.last_date}.\n\nThank you."
                         send_simple_message(to_email, to_name, subject, message)
 
                 return Response({"response": "success"}, status=status.HTTP_200_OK)
